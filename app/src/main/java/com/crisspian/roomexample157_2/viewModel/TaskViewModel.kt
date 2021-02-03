@@ -24,6 +24,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         allTask = repository.listAllTask
     }
 
+    // Aqui manejamos la coroutina
      fun insertTask(task: TaskEntity) = viewModelScope.launch {
         repository.insertTask(task)
     }

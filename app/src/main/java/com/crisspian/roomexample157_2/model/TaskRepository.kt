@@ -15,6 +15,4 @@ class TaskRepository(private val taskDao: TaskDao) {
         taskDao.deleteTask(task)
     }
 
-
-
 }

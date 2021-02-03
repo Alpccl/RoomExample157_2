@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.crisspian.roomexample157_2.databinding.FragmentFirstBinding
 import com.crisspian.roomexample157_2.model.TaskDataBase
@@ -34,21 +36,23 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val adapter = TaskAdapter()
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.allTask.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.textviewFirst.text = it.toString()
+                adapter.update(it)
             }
         })
 
-        val tarea = TaskEntity(title = "Nueva", description = "Descripcion", author = "Cristian")
+        adapter.selectedItem().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            }
+        })
 
-        viewModel.insertTask(tarea)
-
-
-
-        view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+        /*    val tarea = TaskEntity(title = "Nueva", description = "Descripcion", author = "Cristian")
+            viewModel.insertTask(tarea)*/
     }
 }
