@@ -2,6 +2,7 @@ package com.crisspian.roomexample157_2.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import java.util.concurrent.Flow
 
 @Dao
 interface TaskDao {
@@ -27,7 +28,7 @@ interface TaskDao {
     suspend fun deleteAll()
 
     // Traer todos los elementos de la tabla (LEER)
-    @Query("SELECT * FROM task_table")
+    @Query("SELECT * FROM task_table ORDER BY id DESC")
     fun getAllTask() : LiveData<List<TaskEntity>>
 
     // Trae una tarea buscada por titulo y limita a 1 respuesta
@@ -37,6 +38,5 @@ interface TaskDao {
     //Trae una tarea por ID
     @Query("SELECT * FROM task_table WHERE id = :id")
     fun getTaskByID(id: Int) : LiveData<TaskEntity>
-
 
 }
